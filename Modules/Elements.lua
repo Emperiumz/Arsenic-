@@ -6,20 +6,11 @@ function Elements.Toggle(parent,settings)
 
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(1,0,0,32)
-    frame.BackgroundTransparency = 1
     frame.Parent = parent
 
-    local label = Instance.new("TextLabel")
-    label.Text = settings.Name
-    label.Size = UDim2.new(.7,0,1,0)
-    label.BackgroundTransparency = 1
-    label.TextColor3 = Color3.new(1,1,1)
-    label.Parent = frame
-
     local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0,40,0,20)
-    button.Position = UDim2.new(1,-45,.5,-10)
-    button.Text = ""
+    button.Text = settings.Name
+    button.Size = UDim2.new(1,0,1,0)
     button.Parent = frame
 
     local state = settings.Default or false
@@ -54,19 +45,15 @@ function Elements.Slider(parent,settings)
     local dragging = false
 
     bar.InputBegan:Connect(function(input)
-
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = true
         end
-
     end)
 
     UserInputService.InputEnded:Connect(function(input)
-
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             dragging = false
         end
-
     end)
 
     UserInputService.InputChanged:Connect(function(input)
@@ -138,18 +125,25 @@ function Elements.Keybind(parent,settings)
     local binding = nil
 
     button.MouseButton1Click:Connect(function()
+
         button.Text = "Press Key..."
+
         local input = UserInputService.InputBegan:Wait()
+
         binding = input.KeyCode
+
         button.Text = settings.Name.." ["..binding.Name.."]"
+
     end)
 
     UserInputService.InputBegan:Connect(function(input)
 
         if input.KeyCode == binding then
+
             if settings.Callback then
                 settings.Callback()
             end
+
         end
 
     end)
